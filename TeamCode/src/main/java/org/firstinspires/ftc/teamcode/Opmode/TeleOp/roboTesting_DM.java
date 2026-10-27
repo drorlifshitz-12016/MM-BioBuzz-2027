@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.ShooterSubsystem;
 public class roboTesting_DM extends LinearOpMode {
 
     // --- אזור כיול (כאן משנים את הערכים) ---
-//    public static double STOPPER_CLOSED_POSITION = 0.2; // מיקום המעצור האידאלי (סגור/איפוס)
+    public static double STOPPER_CLOSED_POSITION = 0.2; // מיקום המעצור האידאלי (סגור/איפוס)
     public static double STOPPER_OPEN_POSITION = 0.8;   // מיקום המעצור (פתוח/משוחרר)
     public static double SHOOTER_TARGET_SPEED = 0.85;   // מהירות הירי האידאלית (בין 0.0 ל-1.0)
     // ------------------------------------------------
@@ -23,7 +23,7 @@ public class roboTesting_DM extends LinearOpMode {
         // אתחול תת-המערכות
         IntakeSubsystem intake = new IntakeSubsystem(hardwareMap);
         TransferSubsystem transfer = new TransferSubsystem(hardwareMap);
-//        StopperSubsystem stopper = new StopperSubsystem(hardwareMap);
+        StopperSubsystem stopper = new StopperSubsystem(hardwareMap);
         ShooterSubsystem shooter = new ShooterSubsystem(hardwareMap);
 
         boolean intakeRunning = false;
@@ -63,11 +63,9 @@ public class roboTesting_DM extends LinearOpMode {
                 // 1. האצת גלגלי הירי (*** שינוי כיוון אפשרי כאן ע"י פלוס/מינוס ***)
                 shooter.setPower(SHOOTER_TARGET_SPEED);
 
-                // בדיקה האם השוטר הגיע למהירות היעד (אפשר להוסיף תנאי מהירות אמיתי בהמשך אם יש אנקודר)
-                // ברגע שהם רצים, נשחרר את המעצור ונדחוף עם הטרנספר
-//                stopper.setPosition(STOPPER_OPEN_POSITION);
+                stopper.setPosition(STOPPER_OPEN_POSITION);
 
-                // *** שינוי כיוון: החליפו למינוס (-) אם הטרנספר צריך להסתובב הפוך בזמן ירי ***
+
                 transfer.setPower(1.0);
             } else {
                 // עצירת השוטר כשלא לוחצים A

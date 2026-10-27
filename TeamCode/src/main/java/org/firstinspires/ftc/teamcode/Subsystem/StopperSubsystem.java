@@ -15,6 +15,6 @@ public class StopperSubsystem {
 
     // פונקציה לקביעת זווית/מצב הסרוו (ערך בין 0.0 ל-1.0)
     public void setPosition(double position) {
-        stopperServo.setPosition(position);
+        stopperServo.setPosition(1);
     }
 }
