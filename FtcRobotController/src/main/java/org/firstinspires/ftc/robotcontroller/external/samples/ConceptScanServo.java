@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 @TeleOp(name = "Concept: Scan Servo", group = "Concept")
-
+@Disabled
 public class ConceptScanServo extends LinearOpMode {
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -69,7 +69,7 @@ public class ConceptScanServo extends LinearOpMode {
 
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(ServoImplEx.class, "stopperServo");
+        servo = hardwareMap.get(Servo.class, "stopperServo");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );

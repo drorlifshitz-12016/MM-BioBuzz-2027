@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedro;
 
+import com.pedropathing.algorithm.Foresight;
 import com.pedropathing.revhub.drivetrains.Mecanum;
 import com.pedropathing.revhub.localizers.PinpointLocalizer;
 import com.pedropathing.tuning.autotune.Procedure;
@@ -12,10 +13,15 @@ import org.firstinspires.ftc.teamcode.pedro.procedures.Tests;
 
 public class Tuning {
 
+//    @Tuner
+//    public static Procedure tests() {
+//       return new Tests(hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig), null, null);
+//   }
+
     @Tuner
     public static Procedure tests() {
-       return new Tests(hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig), null, null);
-   }
+        return new Tests(hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig), (hardwareMap -> new PinpointLocalizer(hardwareMap, Constants.localizerConfig)), () -> new Foresight(Constants.foresightConfig));
+    }
 
     @Tuner
     public static Procedure foresightTuner() {
