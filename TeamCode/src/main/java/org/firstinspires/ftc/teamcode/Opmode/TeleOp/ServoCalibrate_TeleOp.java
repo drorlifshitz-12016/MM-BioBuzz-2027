@@ -1,39 +1,46 @@
 package org.firstinspires.ftc.teamcode.Opmode.TeleOp;
 
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-// ייבוא תת-המערכת של המעצור
 import org.firstinspires.ftc.teamcode.Subsystem.StopperSubsystem;
+
 
 @TeleOp(name = "ServoCalibrate_TeleOp", group = "Linear Opmode")
 public class ServoCalibrate_TeleOp extends LinearOpMode {
 
+    public static double STOPPER_CLOSED = 0.8;
+    public static double STOPPER_OPEN = 0.0;
+
     @Override
     public void runOpMode() {
-        // אתחול המעצור בלבד
         StopperSubsystem stopper = new StopperSubsystem(hardwareMap);
 
-        telemetry.addData("Status", "Calibration Mode Initialized");
-        telemetry.update();
+        // יצירת מופע של הדאשבורד
+        FtcDashboard dashboard = FtcDashboard.getInstance();
 
         waitForStart();
 
         while (opModeIsActive()) {
 
-            // לחיצה על X תשלח את הסרוו למצב 0 (הכי סגור)
-            if (gamepad1.x) {
-                stopper.setPosition(0.0);
-            }
-            // לחיצה על B תשלח את הסרוו למצב 1 (הכי פתוח)
-            else if (gamepad1.b) {
-                stopper.setPosition(1.0);
+            // שימוש בערכים שניתן לשנות תוך כדי ריצה מהדאשבורד
+            if (gamepad1.dpad_up) {
+                stopper.setPosition(STOPPER_OPEN);
+            } else if (gamepad1.dpad_down) {
+                stopper.setPosition(STOPPER_CLOSED);
             }
 
-            // הצגת המיקום הנוכחי על מסך הטלפון בזמן אמת
-            telemetry.addData("Instructions", "Press X for 0.0 (Closed), Press B for 1.0 (Open)");
-            telemetry.addData("Current Stopper Position", stopper.stopperServo.getPosition());
+            // --- דרך 1: שליחת Telemetry רגילה (מופיעה גם בדאשבורד אוטומטית) ---
+            telemetry.addData("Stopper Target Position", stopper.stopperServo.getPosition());
             telemetry.update();
+
+            // --- דרך 2: שליחת נתונים מתקדמת לדאשבורד (לגרפים ונתונים בזמן אמת) ---
+            TelemetryPacket packet = new TelemetryPacket();
+            packet.put("Servo Position", stopper.stopperServo.getPosition());
+            dashboard.sendTelemetryPacket(packet);
         }
     }
 }

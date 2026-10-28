@@ -1,21 +1,24 @@
 package org.firstinspires.ftc.teamcode.Opmode.TeleOp;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 // ייבוא תת-המערכות שלכם
 import org.firstinspires.ftc.teamcode.Subsystem.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystem.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystem.TransferSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystem.StopperSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystem.TransferSubsystem;
+
 import org.firstinspires.ftc.teamcode.Subsystem.ShooterSubsystem;
 
+@Config
 @TeleOp(name = "RobotTeleOp", group = "Linear Opmode")
 public class RobotTeleOp extends LinearOpMode {
 
     // --- הגדרות וערכים ---
-    public static double STOPPER_CLOSED_POSITION = 0.2;
-    public static double STOPPER_OPEN_POSITION = 0.8;
+    public static double STOPPER_CLOSED_POSITION = -0.2;
+    public static double STOPPER_OPEN_POSITION = 0.1;
     public static double SHOOTER_TARGET_SPEED = 0.85;
 
     @Override
@@ -40,9 +43,9 @@ public class RobotTeleOp extends LinearOpMode {
             // --- א. מערכת הנעה רגילה דרך ה-Subsystem ---
             // ג'ויסטיק שמאל: נסיעה קדימה/אחורה ושמאלה/ימינה
             // ג'ויסטיק ימין: סיבוב
-            double forward = -gamepad1.left_stick_y;
-            double strafe  = gamepad1.left_stick_x;
-            double turn    = gamepad1.right_stick_x;
+            double forward = gamepad1.left_stick_y;
+            double strafe  = -gamepad1.left_stick_x;
+            double turn    = -gamepad1.right_stick_x;
 
             drive.drive(forward, strafe, turn);
 

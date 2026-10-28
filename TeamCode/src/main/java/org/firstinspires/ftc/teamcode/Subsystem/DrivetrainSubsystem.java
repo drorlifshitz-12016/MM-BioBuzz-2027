@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class DrivetrainSubsystem {
@@ -18,9 +19,9 @@ public class DrivetrainSubsystem {
         rightBack  = hardwareMap.get(DcMotor.class, "BR");
 
         // הגדרת כיוונים (בדרך כלל צד אחד צריך להיות הפוך במנועי Mecanum, שנו ל-REVERSE לפי הצורך)
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
 
         // עצירה ברירת מחדל (Brake) לעצירות מדויקות
