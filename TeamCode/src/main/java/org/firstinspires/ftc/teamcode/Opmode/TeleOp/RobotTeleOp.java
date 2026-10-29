@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.Subsystem.ShooterSubsystem;
 public class RobotTeleOp extends LinearOpMode {
 
     // --- הגדרות וערכים ---
-    public static double STOPPER_CLOSED_POSITION = -0.2;
-    public static double STOPPER_OPEN_POSITION = 0.1;
+//    public static double STOPPER_CLOSED_POSITION = 0.2;
+//    public static double STOPPER_OPEN_POSITION = 0.0;
     public static double SHOOTER_TARGET_SPEED = 0.85;
 
     @Override
@@ -27,7 +27,7 @@ public class RobotTeleOp extends LinearOpMode {
         DrivetrainSubsystem drive = new DrivetrainSubsystem(hardwareMap);
         IntakeSubsystem intake = new IntakeSubsystem(hardwareMap);
         TransferSubsystem transfer = new TransferSubsystem(hardwareMap);
-        StopperSubsystem stopper = new StopperSubsystem(hardwareMap);
+//        StopperSubsystem stopper = new StopperSubsystem(hardwareMap);
         ShooterSubsystem shooter = new ShooterSubsystem(hardwareMap);
 
         boolean intakeRunning = false;
@@ -55,7 +55,7 @@ public class RobotTeleOp extends LinearOpMode {
             if (currentYState && !lastYState) {
                 intakeRunning = !intakeRunning;
                 if (intakeRunning) {
-                    stopper.setPosition(STOPPER_CLOSED_POSITION);
+//                    stopper.setPosition(STOPPER_CLOSED_POSITION);
                 }
             }
             lastYState = currentYState;
@@ -74,7 +74,7 @@ public class RobotTeleOp extends LinearOpMode {
             // --- ג. שליטה בכפתור A: ירי, שחרור מעצור וטרנספר ---
             if (gamepad1.a) {
                 shooter.setPower(SHOOTER_TARGET_SPEED);
-                stopper.setPosition(STOPPER_OPEN_POSITION);
+//                stopper.setPosition(STOPPER_OPEN_POSITION);
                 transfer.setPower(1.0);
             } else {
                 shooter.setPower(0.0);

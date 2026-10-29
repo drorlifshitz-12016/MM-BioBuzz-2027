@@ -19,9 +19,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.ShooterSubsystem;
 public class roboTesting_DM extends LinearOpMode {
 
     // --- משתנים הניתנים לעריכה חיה דרך ה-FTC Dashboard ---
-    public static double STOPPER_CLOSED_POSITION = 0.0; // מיקום מעצור סגור
-    public static double STOPPER_OPEN_POSITION = 0.8;   // מיקום מעצור פתוח
-    public static double SHOOTER_TARGET_SPEED = 0.85;   // מהירות שוטר
+    public static double STOPPER_CLOSED_POSITION = 0.68; // מיקום מעצור סגור
+    public static double STOPPER_OPEN_POSITION = 0.0;   // מיקום מעצור פתוח
+    public static double SHOOTER_TARGET_SPEED = 0.25;   // מהירות שוטר
 
     @Override
     public void runOpMode() {
@@ -30,11 +30,12 @@ public class roboTesting_DM extends LinearOpMode {
         TransferSubsystem transfer = new TransferSubsystem(hardwareMap);
         StopperSubsystem stopper = new StopperSubsystem(hardwareMap);
         ShooterSubsystem shooter = new ShooterSubsystem(hardwareMap);
-
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
         boolean intakeRunning = false;
+        boolean transferRunning = false;
         boolean lastYState = false;
+        boolean lastAState = false;
 
         telemetry.addData("Status", "Initialized. Ready to start.");
         telemetry.update();
@@ -65,27 +66,33 @@ public class roboTesting_DM extends LinearOpMode {
 
 
             // --- ב. שליטה בכפתור A: ירי, שחרור מעצור וטרנספר ---
-            if (gamepad1.a) {
-                shooter.setPower(SHOOTER_TARGET_SPEED);
-                stopper.setPosition(STOPPER_OPEN_POSITION);
+            boolean currentAState = gamepad1.a;
+            if (currentAState && !lastAState) { // Edge Detection (לחיצה בודדת)
+                transferRunning = !transferRunning;
+                if (transferRunning) {
+                    stopper.setPosition(STOPPER_OPEN_POSITION);
+                }
+            }
+            lastAState = currentAState;
+
+            if (transferRunning) {
                 transfer.setPower(1.0);
+                shooter.setPower(SHOOTER_TARGET_SPEED);
             } else {
-                shooter.setPower(0.0);
-                if (!intakeRunning) {
+                if (!gamepad1.a) {
                     transfer.setPower(0.0);
+                    shooter.setPower(0.0);
                 }
             }
 
 
             // --- ג. Telemetry רגיל ושלח נתונים ל-Dashboard ---
             telemetry.addData("Intake Running", intakeRunning);
-            telemetry.addData("Shooter Speed", SHOOTER_TARGET_SPEED);
+            telemetry.addData("Shooter Speed", shooter.getVelocity());
             telemetry.update();
 
             TelemetryPacket packet = new TelemetryPacket();
-            packet.put("Shooter Target Speed", SHOOTER_TARGET_SPEED);
-            packet.put("Stooper Open Postion" , STOPPER_OPEN_POSITION);
-            packet.put("Stooper Closed Postion" , STOPPER_CLOSED_POSITION);
+            packet.put("Shooter Encoder", shooter.getEncoderPosition());
             dashboard.sendTelemetryPacket(packet);
         }
     }

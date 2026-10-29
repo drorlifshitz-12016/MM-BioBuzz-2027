@@ -5,15 +5,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class StopperSubsystem {
 
-    // הגדרת סרוו
     public Servo stopperServo;
 
     public StopperSubsystem(HardwareMap hardwareMap) {
-        // חיבור הסרוו לשם שהוגדר בטלפון
         stopperServo = hardwareMap.get(Servo.class, "stopperServo");
+        stopperServo.setDirection(Servo.Direction.REVERSE);
+
+        // הוספת טווח עבודה מותאם לסרבו Axon / דיגיטלי
+        stopperServo.scaleRange(0.0, 1.0);
     }
 
-    // פונקציה לקביעת זווית/מצב הסרוו (ערך בין 0.0 ל-1.0)
     public void setPosition(double position) {
         stopperServo.setPosition(position);
     }

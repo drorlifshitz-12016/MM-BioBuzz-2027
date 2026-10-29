@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,13 +8,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class ShooterSubsystem {
 
     // הגדרת שני מנועי ה-DC לשוטר
-    public DcMotor shooterMotor1;
-    public DcMotor shooterMotor2;
+    public DcMotorEx shooterMotor1;
+    public DcMotorEx shooterMotor2;
 
     public ShooterSubsystem(HardwareMap hardwareMap) {
         // חיבור המנועים לשמות שהוגדרו בטלפון (Configuration)
-        shooterMotor1 = hardwareMap.get(DcMotor.class, "shooterMotorR");
-        shooterMotor2 = hardwareMap.get(DcMotor.class, "shooterMotorL");
+        shooterMotor1 = hardwareMap.get(DcMotorEx.class, "shooterMotorR");
+        shooterMotor2 = hardwareMap.get(DcMotorEx.class, "shooterMotorL");
+        shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
 // אם אחד המנועים מסתובב לכיוון ההפוך מהשני, פשוט הוסיפו את השורה הזו לאחד מהם:
         shooterMotor1.setDirection(DcMotor.Direction.REVERSE); // או REVERSE
@@ -34,5 +37,13 @@ public class ShooterSubsystem {
     public void stop() {
         shooterMotor1.setPower(0.0);
         shooterMotor2.setPower(0.0);
+    }
+
+    public int getEncoderPosition() {
+        return shooterMotor2.getCurrentPosition(); // או shooterMotor2 תלוי למי חיברת את האינקודר
+    }
+
+    public double getVelocity() {
+        return shooterMotor2.getVelocity(); // מחזיר מהירות בזמן אמת
     }
 }
